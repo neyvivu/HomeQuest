@@ -1,0 +1,42 @@
+div.Listingcontainer {
+  background-color: #e2b9e8; /* pastel purple */
+  height:  600px;
+  width: 450px;
+  border-radius: 25px;
+  overflow-y: hidden;
+}
+
+div.Listingimg{
+    background-color: white;
+    height:  279px;
+    width: 450px;
+    border-radius: 25px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+a.Listing {
+    font-size: 30px;
+}
+
+
+/* width */
+#Listingsbar::-webkit-scrollbar {
+    height: 5px;
+  }
+  
+  /* Track */
+#Listingsbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Handle */
+#Listingsbar::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+#Listingsbar::-webkit-scrollbar-thumb:hover {
+    background: #626262;
+  }

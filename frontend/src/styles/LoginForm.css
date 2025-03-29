@@ -1,0 +1,101 @@
+/* div.form
+{
+    display: flexbox;
+    top:-15%;
+    position: absolute;
+    bottom:50%
+}
+form
+{
+    position:relative;
+    background-color: aqua;
+    border-radius: 3px;
+}
+form button
+{
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    
+}
+form label
+{
+    margin-left: 12px;
+    font-weight: 500;;
+}
+#monkey-emoji
+{
+    margin-left: 72%;
+    font-size: x-large;
+    margin-top:-6%;
+}
+a
+{
+    display:inline;
+} */
+div.formcontainer
+{
+    display:flexbox;
+    justify-content: center;
+    background-color: transparent;
+    margin-top: 10%;
+    margin-right:50%;
+    border-radius: 10px;
+    
+}
+div.formcontainer > form
+{
+    padding:5%;
+    border-radius: 18px;
+}
+div.formcontainer > form label.col-sm-8.col-form-label
+{
+    height: 50px;
+    font-size: 26px;
+}
+input.form-control
+{
+    background-color: white;
+    font-size: 25px;;
+}
+input#inputPassword3.form-control
+{
+    margin-bottom:20px;
+    position: inline-block;
+
+}
+button.btn.btn-link
+{
+    display:inline;
+    font-size: 20px;
+    
+}
+#monkey-emoji
+{
+    position:inherit;
+    font-size: 25px;
+
+}
+span#errormsg
+{
+    color:red;
+}
+button.btn.btn-primary.loginSubmit
+{
+    padding-bottom:16px;
+    padding-top:16px;
+    width:45%;
+    font-size: 25px;
+}
+
+div.imagecontainer {
+    height: 100%;
+    min-height: 100%;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    background-color: aliceblue;
+}
+
+

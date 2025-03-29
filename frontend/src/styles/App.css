@@ -1,0 +1,23 @@
+footer 
+{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  text-align:left;
+  opacity: 50%;
+  z-index: -1;
+}
+
+html
+{
+    background-color: #ffd1dc;
+}
+
+body{
+    --bs-body-bg: #ffd1dc; 
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
