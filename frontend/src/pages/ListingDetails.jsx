@@ -144,7 +144,7 @@ function ListingDetails() {
                 width: "30%",
                 height: "698px",
                 marginRight: "12%",
-                background: "rgb(30,61,99)",
+                background: "rgb(204, 146, 173)",
                 overflow: "auto",
                 marginTop: "0.55%",
               }}
@@ -243,7 +243,7 @@ function ListingDetails() {
                 id="agentcard"
                 style={{
                   width: "72%",
-                  background: "rgb(62, 94, 133)",
+                  background: "rgb(204, 146, 173)",
                   paddingBottom: "0",
                 }}
               >

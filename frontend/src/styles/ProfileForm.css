@@ -22,7 +22,7 @@ div.formcontainer > form {
     height: 0px;
     border-style: solid;
     border-width: 90vh 120px 0 0;
-    border-color: rgb(91, 120, 134) transparent transparent transparent;
+    border-color: rgb(204, 146, 173) transparent transparent transparent;
     position: absolute;
 }
 
@@ -31,7 +31,7 @@ div.formcontainer > form {
     height: 0px;
     border-style: solid;
     border-width: 0 120px 90vh 0;
-    border-color: transparent rgb(91, 120, 134) transparent transparent;
+    border-color: transparent rgb(204, 146, 173) transparent transparent;
     position: absolute;
     right: 0%;
 }
