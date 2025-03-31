@@ -43,6 +43,10 @@ function App() {
             element={<LoginForm userType="customer" />}
           />
           <Route path="/login/agent" element={<LoginForm userType="agent" />} />
+          <Route 
+            path="/login/investor" 
+            element={<LoginForm userType="investor" />} />
+
           <Route
             path="/register/agent"
             element={<RegisterForm userType="agent" />}
@@ -52,6 +56,11 @@ function App() {
             element={<RegisterForm userType="customer" />}
           />
           <Route
+            path="/register/investor"
+            element={<RegisterForm userType="investor" />}
+          />
+
+          <Route
             path="/forget-pass/customer"
             element={<ForgetPassword userType="customer" />}
           />
@@ -59,6 +68,10 @@ function App() {
           <Route
             path="/forget-pass/agent"
             element={<ForgetPassword userType="agent" />}
+          />
+          <Route
+            path="/forget-pass/investor"
+            element={<ForgetPassword userType="investor" />}
           />
 
           <Route
@@ -69,6 +82,10 @@ function App() {
           <Route
             path="/reset-pass/agent/:id/:token"
             element={<ResetPassword userType="agent" />}
+          />
+          <Route
+            path="/reset-pass/investor/:id/:token"
+            element={<ResetPassword userType="investor" />}
           />
 
           {/* Protected routes */}
@@ -96,6 +113,15 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path={"/change-password/investor"}
+            element={
+              <RequireAuth fallbackPath={"/login"}>
+                <ChangePassword userType="investor" />
+              </RequireAuth>
+            }
+          />
+
           <Route
             path={"/profile"}
             element={
@@ -164,15 +190,6 @@ function App() {
             element={
               <RequireAuth fallbackPath={"/login"}>
                 <AgentListings />
-              </RequireAuth>
-            }
-          />
-
-          <Route
-            path={"/investor"}
-            element={
-              <RequireAuth fallbackPath={"/login"}>
-                <div>Investor Page</div>
               </RequireAuth>
             }
           />

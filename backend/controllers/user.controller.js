@@ -1,5 +1,6 @@
 import Customer from "../db/customer.model.js";
 import Agent from "../db/agent.model.js";
+import Investor from "../db/investor.model.js";
 import bcryptjs from "bcryptjs";
 import errorHandler from "../utils/error.js";
 import jwt from "jsonwebtoken"; //jwt
@@ -40,6 +41,9 @@ export const changePass = async (req, res, next) => {
     }
     if (userType == "agent") {
       user = await Agent.findOne({ username: username });
+    }
+    if (userType == "investor") {
+      user = await Investor.findOne({ username: username });
     }
     if (user) {
       const validPassword = bcryptjs.compareSync(old, user.password);
@@ -142,6 +146,42 @@ export const updateAgent = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const updateInvestor = async (req, res, next) => {
+  try {
+    const { email, phoneNo, username } = req.body;
+    const validInvestor = await Investor.findOne({ username: username });
+    if (email != "") {
+      validInvestor.email = email;
+    }
+    if (phoneNo != "") {
+      validInvestor.phoneNo = phoneNo;
+    }
+
+    await validInvestor.save();
+    const { password: pass, ...rest } = validInvestor._doc;
+    res.status(200).json({ rest });
+  } catch (error) {
+    if (error.keyValue.email)
+    {
+      return next(
+        errorHandler(
+          409,
+          {type:"email",content: "Email address already existed in our database."}
+        ))
+    }
+    if (error.keyValue.phoneNo)
+    {
+      return next(
+        errorHandler(
+          409,
+          {type:"phoneNo",content: "Phone number already existed in our database."}
+        ))
+    }
+    return next(error);
+  }
+}
+
 export const updateProfiePic = async (req, res, next) => {
   const { username, imageurl, userType } = req.body;
   let user;
@@ -202,8 +242,14 @@ export const resetPassword = async (req, res, next) => {
       await user.save();
       const { password: pass, ...rest } = user._doc;
       res.status(200).json({ rest });
-    } else {
+    } else if (userType == "agent") {
       user = await Agent.findOne({ _id: validId });
+      user.password = hashedPassword;
+      await user.save();
+      const { password: pass, ...rest } = user._doc;
+      res.status(200).json({ rest });
+    } else if (userType == "investor") {
+      user = await Investor.findOne({ _id: validId });
       user.password = hashedPassword;
       await user.save();
       const { password: pass, ...rest } = user._doc;

@@ -1,5 +1,6 @@
 import Customer from "../db/customer.model.js";
 import Agent from "../db/agent.model.js";
+import Investor from "../db/investor.model.js";
 import bcryptjs from "bcryptjs";
 import errorHandler from "../utils/error.js";
 import jwt from "jsonwebtoken"; //jwt
@@ -7,12 +8,79 @@ import "dotenv/config";
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 
+
 function isPasswordStrong(password) {     
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   return regex.test(password);
 }
 
-//Register Tenant
+//Register Investor
+export const registerInvestor = async (req, res, next) => {
+  const { username, email, password, phoneNo } = req.body;
+  const strongpass = isPasswordStrong(password);
+  if (username.length < 6) {
+    return next(errorHandler(401, { type: "username", content: "Username must consist of at least 6 characters." }));
+  }
+
+  if (password.length < 10) {
+    return next(
+      errorHandler(
+        401,
+        { type: "password", content: "Password length must be greater than 10." }
+      )
+    );
+  }
+  if (!strongpass) {
+    return next(
+      errorHandler(
+        401,
+        { type: "password", content: "Password must contain at least 1 upper case letter, 1 special symbol, and a normal case letter." }
+      )
+    );
+  }
+
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+  const newInvestor = new Investor ({
+    username,
+    email,
+    password: hashedPassword,
+    phoneNo,
+  });
+  try {
+    await newInvestor.save();
+    console.log(`${newInvestor.username} 's account is created successfully`);
+    res
+      .status(201)
+      .json(`${newInvestor.username} 's account is created successfully`);
+  } catch (error) {
+    console.log(error.keyValue);
+    const message = error.keyValue || {};
+    if (message.username) {
+      return next(
+        errorHandler(
+          409,
+          { type: "username", content: "Username already existed in our database." }
+        )
+      );
+    } else if (message.email) {
+      return next(
+        errorHandler(
+          409,
+          { type: "email", content: "Email address already existed in our database." }
+        )
+      );
+    } else if (message.phoneNo) {
+      return next(
+        errorHandler(
+          409,
+          { type: "phoneNo", content: "Phone number already existed in our database." }
+        )
+      );
+    }
+  }
+};
+
+//Register customer
 export const registerCustomer = async (req, res, next) => {
   const { username, email, password, phoneNo } = req.body;
   const strongpass = isPasswordStrong(password);
@@ -164,7 +232,6 @@ export const registerAgent = async (req, res, next) => {
 };
 
 
-
 //Customer Login
 export const loginCustomer = async (req, res, next) => {
   const { username, password } = req.body;
@@ -230,6 +297,7 @@ export const loginCustomer = async (req, res, next) => {
   }
 };
 
+//Agent Login   
 export const loginAgent = async (req, res, next) => {
   const { username, password } = req.body;
   try {
@@ -283,6 +351,71 @@ export const loginAgent = async (req, res, next) => {
   }
 };
 
+//Investor Login
+export const loginInvestor = async (req, res, next) => {
+  const { username, password } = req.body;
+  try { 
+    const validInvestor = await Investor.findOne({ username });
+    if (!validInvestor) {
+      return next(errorHandler(404, "Invalid username or pasword"));
+    }
+    //Customer do exist, now check the acccount lock status
+    if (validInvestor.accountLocked) {
+      const curTime = new Date();
+      const lockDuration = 5 * 60 * 1000;
+      const unlockTime = new Date(
+        validCustomer.lockedAt.getTime() + lockDuration
+      );
+
+      // Check if it's time to unlock the account
+      if (curTime >= unlockTime) {
+        // Reset login attempt counter and then unlock the account
+        validCustomer.loginAttempts = 0;
+        validCustomer.accountLocked = false;
+        //Save info back to database
+        await validInvestor.save();
+      } else {
+        const remainingTime = Math.ceil((unlockTime - curTime) / 1000); // Remaining time in seconds
+        return next(
+          errorHandler(
+            403,
+            `Account is locked. Please try again in ${remainingTime} seconds`
+          )
+        );
+      }
+    }
+    const validPassword = bcryptjs.compareSync(
+      password,
+      validInvestor.password
+    );
+    if (!validPassword) {
+      validInvestor.loginAttempts += 1;
+      if (validInvestor.loginAttempts >= 5) {
+        validInvestor.accountLocked = true;
+        validInvestor.lockedAt = new Date();
+      }
+      await validInvestor.save();
+      return next(errorHandler(401, "Invalid username or password"));
+    }
+    const jwtToken = jwt.sign(
+      { id: validInvestor._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "3h" }
+    );
+    validInvestor.loginAttempts = 0;
+    validInvestor.accountLocked = false;
+    //Save info back to database
+    await validInvestor.save();
+    const {password: pass, ...rest} = validInvestor._doc;
+    const token =jwtToken;
+    res
+      .status(200)
+      .json({rest, token});
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const forgetPassword = async (req, res, next) => {
 
   const { email, userType } = req.body;
@@ -292,7 +425,10 @@ export const forgetPassword = async (req, res, next) => {
     validUser = await Customer.findOne({ email });
   } else if (userType === "agent"){
     validUser = await Agent.findOne({ email });
+  } else if (userType === "investor"){
+    validUser = await Investor.findOne({ email });
   }
+
   if(!validUser){
     return next(
       errorHandler(
@@ -409,15 +545,19 @@ export const resetPassword = async (req, res, next) => {
     {
         user = await Customer.findOne({username});
     }
-    else
+    else if (String(userType) === "Agent")
     {
         user = await Agent.findOne({username});
+    }
+    else if (String(userType) === "Investor")
+    {
+        user = await Investor.findOne({username});
     }
     user.password = hashedPassword;
     await user.save();
     const {password: pass, ...rest} = user._doc;
     res.status(200).json({rest})
-    }catch(error){
+    } catch(error){
         console.log(error);
         return next(error);
     }
