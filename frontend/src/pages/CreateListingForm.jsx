@@ -33,9 +33,10 @@ function CreateListingForm() {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
-    street_name: 0,
+    postalCode: 0,
     description: "",
-    room: 0,
+    bathroom: 0,
+    bedroom: 0,
     price: 0,
     agentRef: String(currentAgent),
     images: [],

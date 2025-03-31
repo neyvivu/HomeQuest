@@ -2,71 +2,55 @@ import mongoose from "mongoose";
 
 const propertySchema = new mongoose.Schema(
   {
-    month: {
+    name: {
       type: String,
       required: true,
     },
-    town: {
-      type: String,
+    postalCode: {
+      type: Number,
       required: true,
+      maxlength: 6,
     },
-    flat_type: {
-      type: String,
-      required: true,
-    },
-    block: {
+    price: {
       type: Number,
       required: true,
     },
-    street_name: {
+    description: {
       type: String,
       required: true,
     },
-    storey_range: {
+    address: {
       type: String,
       required: true,
     },
-    floor_area_sqm: {
+    bedroom: {
       type: Number,
       required: true,
     },
-    flat_model: {
-      type: String,
-      required: true,
-    },
-    lease_commence_date: {
-      type: Number,
-      required: true,
-    },
-    remaining_lease: {
-      type: String,
-      required: true,
-    },
-    resale_price: {
+    bathroom: {
       type: Number,
       required: true,
     },
     images: {
-      type: String,
+      type: Array,
       required: true,
     },
     agentRef: {
       type: String,
       required: true,
     },
+    LATITUDE: 
+    {
+      type: Number,
+    },
     LONGITUDE: {
-      type: String,
-      required: true,
-    },
-    LATITUDE: {
-      type: String,
-      required: true,
-    },
+      type: Number,
+   },
   },
   { timestamps: true }
 );
 
-export const Property = mongoose.model("Property", propertySchema, "homedb");
-export const ManagedListing = mongoose.model("ManagedListing", propertySchema, "homedb");
-export const WatchList = mongoose.model("WatchList", propertySchema, "homedb");
+export const Property = mongoose.model("Property", propertySchema, "housingdb");
+export const ManagedListing = mongoose.model("ManagedListing", propertySchema, "housingdb");
+export const WatchList = mongoose.model("WatchList", propertySchema, "housingdb");
 

@@ -126,13 +126,13 @@ import {
                   className="row"
                   style={{ marginTop: "20px", width: "315px" }}
                 >
-                  <h3 className="text-truncate"> Address: {listing.street_name}</h3>
+                  <h3 className="text-truncate"> Address: {listing.address}</h3>
                 </div>
                 <div className="row">
-                  <h3> Price: S${listing.resale_price}</h3>
+                  <h3> Monthly Rent: S${listing.price}</h3>
                 </div>
                 <div className="row">
-                  <h3>Type: {listing.flat_type} </h3> 
+                  <h3>{listing.bathroom}🛁 {listing.bedroom}🛏️</h3>
                 </div>
 
                 {userType === "Customer" && (

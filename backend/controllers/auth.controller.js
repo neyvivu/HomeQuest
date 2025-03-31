@@ -12,7 +12,7 @@ function isPasswordStrong(password) {
   return regex.test(password);
 }
 
-//Register Customer
+//Register Tenant
 export const registerCustomer = async (req, res, next) => {
   const { username, email, password, phoneNo } = req.body;
   const strongpass = isPasswordStrong(password);

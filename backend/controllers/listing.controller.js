@@ -153,7 +153,7 @@ export const getWatchlistListings = async (req, res, next) => {
     } catch (error) {
       console.log(error);
       return next(error);
-    }
+    } 
   };
 
   export const editListing = async (req, res, next) => {
