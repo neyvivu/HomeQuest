@@ -50,7 +50,7 @@ const propertySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Property = mongoose.model("Property", propertySchema, "housingdb");
-export const ManagedListing = mongoose.model("ManagedListing", propertySchema, "housingdb");
-export const WatchList = mongoose.model("WatchList", propertySchema, "housingdb");
+export const Property = mongoose.model("Property", propertySchema, "housingdb ");
+export const ManagedListing = mongoose.model("ManagedListing", propertySchema, "housingdb ");
+export const WatchList = mongoose.model("WatchList", propertySchema, "housingdb ");
 
