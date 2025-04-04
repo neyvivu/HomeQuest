@@ -452,6 +452,7 @@ export const forgetPassword = async (req, res, next) => {
 };
 
 export const sendEmail = async (req, res) => {
+  console.log("Received email request:", req.body);
   const BASE_URL = 'http://localhost:5173';
     const { email ,userType, token,id, username} = req.body;
     let config = {
