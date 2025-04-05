@@ -475,7 +475,7 @@ export const sendEmail = async (req, res) => {
     let MailGenerator = new Mailgen({
         theme: "default",
         product : {
-            name: "HomeQuest by Group 4",
+            name: "HomeQuest by SCEX Group 4",
             link : 'https://mailgen.js/'
         }
     })
@@ -491,7 +491,7 @@ export const sendEmail = async (req, res) => {
                     }
                 ]
             },
-            outro: "Do not share your password with anyone."
+            outro: "Please remember to not share your password with anyone."
         }
     }
 
