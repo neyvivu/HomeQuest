@@ -364,7 +364,7 @@ export const loginInvestor = async (req, res, next) => {
       const curTime = new Date();
       const lockDuration = 5 * 60 * 1000;
       const unlockTime = new Date(
-        validCustomer.lockedAt.getTime() + lockDuration
+        validInvestor.lockedAt.getTime() + lockDuration
       );
 
       // Check if it's time to unlock the account
@@ -464,6 +464,13 @@ export const sendEmail = async (req, res) => {
     }
 
     let transporter = nodemailer.createTransport(config);
+    transporter.verify((error, success) => {
+      if (error) {
+        console.log("Error connecting to email service:", error);
+      } else {
+        console.log("Email server is ready to take messages");
+      }
+    });
 
     let MailGenerator = new Mailgen({
         theme: "default",
@@ -541,25 +548,24 @@ export const resetPassword = async (req, res, next) => {
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
   let user;
-    try{
-        if (String(userType) === "Customer")
-    {
-        user = await Customer.findOne({username});
+  try {
+    const type = userType.toLowerCase();
+    if (type === "customer") {
+      user = await Customer.findOne({ username });
+    } else if (type === "agent") {
+      user = await Agent.findOne({ username });
+    } else if (type === "investor") {
+      user = await Investor.findOne({ username });
     }
-    else if (String(userType) === "Agent")
-    {
-        user = await Agent.findOne({username});
-    }
-    else if (String(userType) === "Investor")
-    {
-        user = await Investor.findOne({username});
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
     }
     user.password = hashedPassword;
     await user.save();
-    const {password: pass, ...rest} = user._doc;
-    res.status(200).json({rest})
-    } catch(error){
-        console.log(error);
-        return next(error);
-    }
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json({ rest });
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 }
