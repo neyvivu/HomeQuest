@@ -17,6 +17,9 @@ console.log("Mongo URI:", process.env.MONGO);
 
 mongoose.connect(process.env.MONGO).then(()=>{console.log("Connected to DB")}).catch((error)=>{console.log("Error: " , error)});
 
+console.log("Supabase URL:", process.env.VITE_SUPABASE_URL);
+console.log("Supabase Anon Key:", process.env.VITE_SUPABASE_ANON_KEY);
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
