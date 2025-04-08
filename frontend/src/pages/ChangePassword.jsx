@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import "../styles/RegisterForm.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-import loginimg from "../assets/loginimg.png";
 import {
   updateUserFailure,
   updateUserStart,
@@ -168,14 +166,6 @@ function ChangePassword({ userType }) {
             </button>
           </div>
         </form>
-      </div>
-
-      <div className="imagecontainer">
-        <img
-          src={loginimg}
-          alt="City landscape"
-          style={{ height: "100%", left: "0%" }}
-        />
       </div>
     </>
   );

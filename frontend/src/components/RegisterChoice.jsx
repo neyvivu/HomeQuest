@@ -1,6 +1,5 @@
 import "../styles/Choice.css";
 import { Link } from 'react-router-dom';
-import loginimg from '../assets/loginimg.png';
 import Logo from '../assets/Logo.png';
 
 
@@ -26,14 +25,6 @@ function RegisterChoice()
       <button onClick={handleClick} name="investor" className="btn btn-primary" type="button" style={{fontSize:"25px"}}>Register as Investor</button>
     <a className="Choice" href="/login"style={{color:"black" ,fontSize:"25px", fontWeight:"bold"}}>Have an account? Login Here</a>
     </div>
-
-    {/* <div className="imagecontainer">
-      <img
-        src={loginimg}
-        alt="City landscape"
-        style={{ height: "100%", left: "0%" }}
-      /> 
-    </div> */}
     </>
     )
 }

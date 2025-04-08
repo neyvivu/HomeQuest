@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../styles/RegisterForm.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import loginimg from "../assets/loginimg.png";
 
 function ResetPassword({ userType }) {
   const BASE_URL = "http://localhost:3000";
