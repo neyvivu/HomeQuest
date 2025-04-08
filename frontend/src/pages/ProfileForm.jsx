@@ -3,13 +3,7 @@ import NavBar from "../components/NavBar";
 import Triangles from "../components/Triangles";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../firebase";
+import { supabase } from "../supabase";
 import "../styles/ProfileForm.css";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
 import axios from "axios";
@@ -73,33 +67,27 @@ function ProfileForm() {
       console.log(error);
     }
   }
+
   async function handleFileUpload(file) {
-    const storage = getStorage(app);
-    //Give the new file a new name
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, fileName);
-    const uploadJob = uploadBytesResumable(storageRef, file);
-
-    uploadJob.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePerc(Math.round(progress));
-      },
-      (error) => {
-        setFileUploadError(error);
-      },
-      () => {
-        getDownloadURL(uploadJob.snapshot.ref).then((downloadURL) => {
-          setData({ profilepic: downloadURL });
-
-          console.log(downloadURL);
-          saveProfileImage(downloadURL);
-        });
-      }
-    );
+    const { data: uploadData, error } = await supabase.storage
+      .from("profilepics")
+      .upload(fileName, file);
+    if (error) {
+      setFileUploadError(error);
+      return;
+    }
+    const { data: urlData, error: urlError } = supabase.storage
+      .from("profilepics")
+      .getPublicUrl(fileName);
+    if (urlError) {
+      setFileUploadError(urlError);
+      return;
+    }
+    setData({ profilepic: urlData.publicUrl });
+    saveProfileImage(urlData.publicUrl);
   }
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -108,6 +96,7 @@ function ProfileForm() {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError({

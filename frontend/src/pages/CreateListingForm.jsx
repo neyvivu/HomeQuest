@@ -6,13 +6,6 @@ import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import "../styles/ProfileForm.css";
 import { supabase } from "../supabase";
-/* import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage"; 
-import { app } from "../firebase"; */
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 
