@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 
-/**
- * InvestorSearchBar
- * - Free text "searchTerm"
- * - 4 filter fields: flatType, remainingLease, level, town
- * - If only "searchTerm" is typed -> navigate("/investor/search/<searchTerm>")
- * - If "searchTerm" + all 4 filters -> navigate("/investor/search/<searchTerm>/<flatType>/<remainingLease>/<level>/<town>")
- * - If searchTerm is empty but at least one filter is typed -> navigate("/investor/search/all/<flatType>/<remainingLease>/<level>/<town>")
- * - If no searchTerm and no filters -> navigate("/investor/search/all")
- */
+
 const InvestorSearchBar = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -37,21 +29,17 @@ const InvestorSearchBar = () => {
     if (searchTerm) {
       // If the user typed all 4 investor filters as well
       if (flatType && remainingLease && level && town) {
-        // e.g. /investor/search/SunshineHouse/4 ROOM/60 years/10 TO 12/YISHUN
         navigate(`/investor/properties/${searchTerm}/${flatType}/${remainingLease}/${level}/${town}`);
       } else {
-        // e.g. /investor/search/SunshineHouse
         navigate(`/investor/properties/${searchTerm}`);
       }
     } else {
       // searchTerm is empty => "all"
       if (flatType || remainingLease || level || town) {
-        // e.g. /investor/search/all/4 ROOM/60 years/10 TO 12/YISHUN
         navigate(
           `/investor/properties/all/${flatType || "any"}/${remainingLease || "any"}/${level || "any"}/${town || "any"}`
         );
       } else {
-        // e.g. /investor/search/all
         navigate(`/investor/properties/all`);
       }
     }

@@ -9,20 +9,13 @@ import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import InvestorSearchBar from "./InvestorSearchBar";
 
-/**
- * InvestorSearchResults:
- * - Expects URL like /investor/search/:searchTerm or /investor/search/:searchTerm/:flatType/:remainingLease/:level/:town
- * - Or fallback /investor/search/all or /investor/search/all/:flatType/:remainingLease/:level/:town
- * - Calls back-end aggregator accordingly
- */
+
 const InvestorSearchResults = () => {
   const [propertyListings, setPropertyListings] = useState([]);
   const userType = useSelector((state) => state.user.currentUser.userType);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // The route might be: /investor/search/all, or /investor/search/:searchTerm, or the full path with all 5 segments
-  // We'll parse them from useParams.
   const { searchTerm, flatType, remainingLease, level, town } = useParams();
   const BASE_URL = "http://localhost:3000";
   const navigate = useNavigate();
@@ -33,13 +26,11 @@ const InvestorSearchResults = () => {
         // Clear old listings
         setPropertyListings([]);
 
-        // Build a searchQuery path that your aggregator can handle,
-        // matching the same pattern you used in InvestorSearchBar.
+
         let searchQuery = "";
         if (searchTerm && searchTerm !== "all") {
           // user typed a name
           if (flatType && remainingLease && level && town) {
-            // e.g. "search/<searchTerm>/<flatType>/<remainingLease>/<level>/<town>"
             searchQuery = `search/${searchTerm}/${flatType}/${remainingLease}/${level}/${town}`;
           } else {
             // only searchTerm
@@ -48,18 +39,13 @@ const InvestorSearchResults = () => {
         } else {
           // searchTerm is "all" or not set
           if (flatType || remainingLease || level || town) {
-            // e.g. "search/all/<flatType>/<remainingLease>/<level>/<town>"
             searchQuery = `search/all/${flatType || "any"}/${remainingLease || "any"}/${level || "any"}/${town || "any"}`;
           } else {
-            // "search/all"
             searchQuery = `search/all`;
           }
         }
 
-        // Now call your investor aggregator route
-        // For example: GET /api/investor/search/all, or /api/investor/search/<term>...
-        // Make sure your back-end has matching routes: e.g. /api/investor/search/all, /api/investor/search/:searchTerm
-        // If the aggregator is currently not set up, you must define them in investor.routes.js or similar.
+
         const res = await axios.get(`${BASE_URL}/api/investor/${searchQuery}`);
         console.log("Investor results:", res.data);
 
