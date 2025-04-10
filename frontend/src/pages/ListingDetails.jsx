@@ -301,7 +301,7 @@ function ListingDetails() {
                     </h5>
                   </button>
 
-                  {userType === "Customer" && (
+                  {(userType === "Customer") && (
                     <div className="row " style={{ marginTop: "3.5%" }}>
                       <button
                         type="button"

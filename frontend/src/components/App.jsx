@@ -22,6 +22,9 @@ import SearchResults from "../pages/SearchResults";
 import Watchlist from "../pages/Watchlist";
 import EditListing from "../pages/EditListing";
 import AgentListings from "../pages/AgentListings";
+import InvestorDashboard from "../pages/InvestorDashboard";
+import InvestorSearchBar from "../pages/InvestorSearchBar";
+import InvestorSearchResults from "../pages/InvestorSearchResults";
 
 const store = createStore({
   authName: "_auth",
@@ -94,6 +97,30 @@ function App() {
             element={
               <RequireAuth fallbackPath={"/login"}>
                 <Home />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/investor"
+            element={
+              <RequireAuth fallbackPath={"/login"}>
+                <InvestorDashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/investor/properties/:searchTerm/:flatType/:remainingLease/:level/:town"
+            element={
+              <RequireAuth fallbackPath={"/login"}>
+                <InvestorSearchResults />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/investor/properties/:searchTerm"
+            element={
+              <RequireAuth fallbackPath={"/login"}>
+                <InvestorSearchResults />
               </RequireAuth>
             }
           />

@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-/** HTTP Reqeust */
+/** HTTP Request */
 
 router.post('/forget-pass/sendemail', sendEmail);
 router.post('/forget-pass', forgetPassword);

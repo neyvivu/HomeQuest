@@ -20,6 +20,13 @@ import {
   const BASE_URL = "http://localhost:3000";
   const [success, setSuccess] = useState(false);
   const [notIn, setNotIn] = useState(true);
+
+  useEffect(() => {
+    if (userType === "Investor") {
+      navigate("/investor");
+    }
+  }, [userType, navigate]);
+  
   useEffect(() => {
     const fetchListings = async () => {
       try {
@@ -135,7 +142,7 @@ import {
                   <h3>{listing.bathroom}🛁 {listing.bedroom}🛏️</h3>
                 </div>
 
-                {userType === "Customer" && (
+                {(userType === "Customer") && (
                     <div className="row " style={{ marginTop: "3.5%" }}>
                       <button
                         type="button"

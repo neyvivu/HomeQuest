@@ -9,6 +9,7 @@ import userRouter from "./routes/user.routes.js";
 import { error } from 'console';
 import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js"
+import investorRoutes from "./routes/investor.route.js";
 
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use("/api/user", userRouter);
 app.use('/api/auth', authRouter);
 app.use("/api/listing", listingRouter);
+app.use("/api/investor", investorRoutes);
 
 //Middleware
 app.use((error, req, res, next)=>

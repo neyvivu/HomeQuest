@@ -68,7 +68,7 @@ const Watchlist = () => {
 
   return (
     <>
-      {userType === "Customer" ? (
+      {(userType === "Customer" || userType == "Investor") ? (
         <>
           <header>
             <NavBar userType={userType} />

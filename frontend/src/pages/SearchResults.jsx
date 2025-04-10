@@ -15,25 +15,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Alert from "react-bootstrap/Alert";
 
-//import { fetchPropertyListings } from './propertyListings'; // Import the fetchPropertyListings function from your backend API file
-
-// const PropertyListings = ({ listings }) => {
-//     return (
-//         <div>
-//             <h2>Available Property Listings</h2>
-//             <ul>
-//                 {listings.map((listing, index) => (
-//                     <li key={index}>
-//                         <p>{listing.address}</p>
-//                         <p>{listing.price}</p>
-//                         {/* all property details go here*/}
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };
-
 const SearchBar = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -257,7 +238,7 @@ const SearchResults = () => {
       try {
         setPropertyListings([]);
         let searchQuery = "";
-        if (searchTerm) {
+        if (searcsearchTermhTerm) {
           if (bedroom && bathroom && lowerPrice && upperPrice) {
             searchQuery = `search/${searchTerm}/${bedroom}/${bathroom}/${lowerPrice}/${upperPrice}`;
           } else {

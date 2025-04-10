@@ -55,5 +55,5 @@ const investorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Investor = mongoose.model("Invsetor", investorSchema);
+const Investor = mongoose.model("Investor", investorSchema, "invsetors");
 export default Investor;

@@ -4,6 +4,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import errorHandler from "../utils/error.js";
 import Customer from "../db/customer.model.js";
+import Investor from "../db/investor.model.js";
 import { createReadStream } from "fs";
 
 export const createListing = async(req, res, next) =>
@@ -58,19 +59,23 @@ export const getListing = async (req, res, next) => {
 
 
 export const getWatchlistListings = async (req, res, next) => {
-   
-    try {
-      
-      const customer = await Customer.findById(req.params.id);
-      if (!customer) {
-        return res.status(404).json({ message: "User not found." });
-      }
-      const listingIds = customer.watchList;
 
-      if (listingIds.length === 0) {
-        return res.status(200).json({ message: "You don't have anything in the watchlist." });
-      }
-      const validPropertyIds = [];
+  try {
+    let user = await Customer.findById(req.params.id);
+    if (!user) {
+      user = await Investor.findById(req.params.id);
+    }
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const listingIds = user.watchList;
+
+    if (listingIds.length === 0) {
+      return res.status(200).json({ message: "You don't have anything in the watchlist." });
+    }
+
+    const validPropertyIds = [];
     for (const listingId of listingIds) {
       const property = await Property.findById(listingId);
       if (property) {
@@ -79,24 +84,20 @@ export const getWatchlistListings = async (req, res, next) => {
         console.log(`Invalid property ID ${listingId} found in watchlist. Removing from watchlist.`);
       }
     }
-    customer.watchList = validPropertyIds;
-    await customer.save();
+    user.watchList = validPropertyIds;
+    await user.save();
 
+    const propertyPromises = validPropertyIds.map(async (propertyId) => {
+      return await Property.findById(propertyId);
+    });
 
-    const propertyIds = customer.watchList;
-      
-      const propertyPromises = propertyIds.map(async (propertyId) => {
-        const property = await Property.findById(propertyId);
-        return property;
-      });
-      const properties = await Promise.all(propertyPromises);
-  
-      res.status(200).json(properties);
-  
-    } catch (error) {
-      return next(error);
-    }
-  };
+    const properties = await Promise.all(propertyPromises);
+
+    res.status(200).json(properties);
+  } catch (error) {
+    return next(error);
+  }
+};
 
   export const getAgentListings = async (req, res, next) => {
     const {username} = req.query;

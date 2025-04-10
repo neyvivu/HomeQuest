@@ -38,7 +38,21 @@ function NavBar({userType}) {
             <Nav.Link href="/" style={{fontSize:"1.5em"}}>Home</Nav.Link>
             <Nav.Link href="/profile" style={{fontSize:"1.5em"}}>Profile</Nav.Link>
             <Nav.Link href={userType == "Agent" ? "/my-listings" : "/watchlist"} style={{fontSize:"1.5em"}}>{userType =="Agent" ? "My Listings" : "My Watchlist"}</Nav.Link>
-            <Nav.Link href="/search/all" style={{fontSize:"1.5em"}}>View All Properties</Nav.Link>
+            {userType === "Investor" ? (
+            <Nav.Link
+              href="/investor/properties/all"
+              style={{ fontSize: "1.5em" }}
+            >
+              View All Properties
+            </Nav.Link>
+            ) : (
+            <Nav.Link
+              href="/search/all"
+              style={{ fontSize: "1.5em" }}
+            >
+              View All Properties
+            </Nav.Link>
+            )}
             <form className="d-flex" onSubmit={handleSubmit}> 
             <input
               type="text"

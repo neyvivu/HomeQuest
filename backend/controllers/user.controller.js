@@ -279,16 +279,16 @@ export const getAgent = async (req, res, next) => {
 export const addToWatchList = async (req, res, next) => {
   try {
     const { username } = req.body;
-    const customer = await Customer.findOne({ username: username });
-    if (!customer) {
+    let user = await Customer.findOne({ username: username });
+    if (!user) {
+      user = await Investor.findOne({ username: username });
+    }
+    if (!user) {
       return next(
-        errorHandler(404, {
-          type: "database",
-          content: "Customer not found.",
-        })
+        errorHandler(404, { type: "database", content: "User not found." })
       );
     }
-    if (customer.watchList.includes(req.params.id)) {
+    if (user.watchList.includes(req.params.id)) {
       return next(
         errorHandler(400, {
           type: "watchlist",
@@ -296,10 +296,9 @@ export const addToWatchList = async (req, res, next) => {
         })
       );
     }
-
-    customer.watchList.push(req.params.id);
-    await customer.save();
-    const { password: pass, ...rest } = customer._doc;
+    user.watchList.push(req.params.id);
+    await user.save();
+    const { password: pass, ...rest } = user._doc;
     res.status(200).json({ rest });
   } catch (error) {
     console.log(error);
@@ -309,17 +308,16 @@ export const addToWatchList = async (req, res, next) => {
 
 export const deleteFromWatchList = async (req, res, next) => {
   try {
-    const customer = await Customer.findById(req.params.userid);
-    if (!customer) {
+    let user = await Customer.findById(req.params.userid);
+    if (!user) {
+      user = await Investor.findById(req.params.userid);
+    }
+    if (!user) {
       return next(
-        errorHandler(404, {
-          type: "database",
-          content: "Customer not found.",
-        })
+        errorHandler(404, { type: "database", content: "User not found." })
       );
     }
-    if (customer.watchList.length === 0)
-    {
+    if (user.watchList.length === 0) {
       return next(
         errorHandler(400, {
           type: "empty",
@@ -327,21 +325,20 @@ export const deleteFromWatchList = async (req, res, next) => {
         })
       );
     }
-    const indexToRemove = customer.watchList.indexOf(req.params.id);
+    const indexToRemove = user.watchList.indexOf(req.params.id);
     if (indexToRemove === -1) {
       return next(
         errorHandler(400, {
           type: "database",
-          content: "The id is not in the watchlist.",
+          content: "The property id is not in the watchlist.",
         })
       );
     }
-    customer.watchList.splice(indexToRemove, 1);
-    await customer.save();
-    const { password: pass, ...rest } = customer._doc;
+    user.watchList.splice(indexToRemove, 1);
+    await user.save();
+    const { password: pass, ...rest } = user._doc;
     res.status(200).json({ rest });
-
-  }catch (error) {
+  } catch (error) {
     console.log(error);
     return next(error);
   }
