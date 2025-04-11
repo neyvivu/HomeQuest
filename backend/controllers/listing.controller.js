@@ -1,4 +1,5 @@
 import {Property}  from "../db/property.model.js"
+import {InvestorProperty} from "../db/investorProperty.model.js"
 import axios from "axios";
 import express from "express";
 import bodyParser from "body-parser";
@@ -62,9 +63,15 @@ export const getWatchlistListings = async (req, res, next) => {
 
   try {
     let user = await Customer.findById(req.params.id);
+    let PropertyModel = Property;
+    
     if (!user) {
       user = await Investor.findById(req.params.id);
+      if (user) {
+        PropertyModel = InvestorProperty;
+      }
     }
+
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
@@ -77,7 +84,7 @@ export const getWatchlistListings = async (req, res, next) => {
 
     const validPropertyIds = [];
     for (const listingId of listingIds) {
-      const property = await Property.findById(listingId);
+      const property = await PropertyModel.findById(listingId);
       if (property) {
         validPropertyIds.push(listingId);
       } else {
@@ -88,7 +95,7 @@ export const getWatchlistListings = async (req, res, next) => {
     await user.save();
 
     const propertyPromises = validPropertyIds.map(async (propertyId) => {
-      return await Property.findById(propertyId);
+      return await PropertyModel.findById(propertyId);
     });
 
     const properties = await Promise.all(propertyPromises);
@@ -143,6 +150,7 @@ export const getWatchlistListings = async (req, res, next) => {
 
   export const deleteListing = async (req, res, next) => {
     try {
+      
       const listingID = req.params.id;
       const listing = await Property.findById(listingID);
       if (!listing) {

@@ -238,7 +238,7 @@ const SearchResults = () => {
       try {
         setPropertyListings([]);
         let searchQuery = "";
-        if (searcsearchTermhTerm) {
+        if (searchTerm) {
           if (bedroom && bathroom && lowerPrice && upperPrice) {
             searchQuery = `search/${searchTerm}/${bedroom}/${bathroom}/${lowerPrice}/${upperPrice}`;
           } else {
@@ -336,7 +336,7 @@ const SearchResults = () => {
                         backgroundColor: "transparent",
                         marginLeft: "50%",
                         width: "50%",
-                        height: "2.3em",
+                        height: "2.8em",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -362,7 +362,7 @@ const SearchResults = () => {
                           width: "50%",
                           backgroundColor: "transparent",
                           marginLeft: "50%",
-                          height: "2.3em",
+                          height: "2.8em",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",

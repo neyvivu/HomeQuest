@@ -4,21 +4,64 @@ import NavBar from "../components/NavBar";
 import "../styles/SearchResults.css";
 import PaginationComponent from "../components/PageNavigator";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../redux/user/userSlice";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import InvestorSearchBar from "./InvestorSearchBar";
-
 
 const InvestorSearchResults = () => {
   const [propertyListings, setPropertyListings] = useState([]);
   const userType = useSelector((state) => state.user.currentUser.userType);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
+  const [setSuccess] = useState(false);
+  const [setNotIn] = useState(true);
   const { searchTerm, flatType, remainingLease, level, town } = useParams();
   const BASE_URL = "http://localhost:3000";
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
+
+  const handleAddToWatchlist = (propertyId) => async (event) => {
+    event.preventDefault();
+    event.stopPropagation(); 
+    
+    dispatch(updateUserStart());
+      try {
+        const response = await axios.put(
+          `${BASE_URL}/api/user/add-to-watchlist/${propertyId}`,
+          { username: currentUser.username }
+        );
+        if (response.status == 200) {
+          console.log("Added to watchlist");
+          dispatch(updateUserSuccess(response.data.rest));
+          console.log(response.data.rest);
+          setSuccess(true);
+          setTimeout(() => {
+            setSuccess(false);
+          }, 1000);
+        }
+      } catch (error) {
+        const errorMessage = error.response && error.response.data && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        console.error("Error adding to watchlist:", errorMessage);
+        const e = error.response.data.message;
+        if (e.type == "watchlist") {
+          setSuccess(true);
+          setNotIn(false);
+          setTimeout(() => {
+            setSuccess(false);
+            setNotIn(true);
+          }, 1000);
+        }
+      }
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,6 +145,29 @@ const InvestorSearchResults = () => {
                   <div className="row" style={{ width: "545px" }}>
                     <h2>Remaining Lease: {listing.remaining_lease}</h2>
                   </div>
+                  {userType === "Investor" && (
+                    <div className="row " style={{ marginTop: "3.5%" }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary Listing"
+                        style={{
+                          color: "black",
+                          width: "50%",
+                          backgroundColor: "transparent",
+                          marginLeft: "50%",
+                          height: "2.3em",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "25px",
+                        }}
+                        
+                        onClick={handleAddToWatchlist(listing._id)}
+                      >
+                        ♡ Add to Watchlist
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))

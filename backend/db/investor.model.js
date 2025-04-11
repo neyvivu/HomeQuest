@@ -49,7 +49,7 @@ const investorSchema = new mongoose.Schema(
     },
     watchList: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Property'
+      ref: 'InvestorProperty'
     }]
   },
   { timestamps: true }

@@ -17,3 +17,4 @@ const investorPropertySchema = new mongoose.Schema({
 });
 
 export const InvestorProperty = mongoose.model("InvestorProperty", investorPropertySchema, "homequest");
+export const InvestorWatchList = mongoose.model("InvestorWatchList", investorPropertySchema, "homequest");

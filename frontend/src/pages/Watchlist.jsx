@@ -68,7 +68,7 @@ const Watchlist = () => {
 
   return (
     <>
-      {(userType === "Customer" || userType == "Investor") ? (
+      {(userType === "Customer" || userType === "Investor") ? (
         <>
           <header>
             <NavBar userType={userType} />
@@ -83,7 +83,7 @@ const Watchlist = () => {
               className="row text-center"
               style={{ marginLeft: "30%", marginRight: "30%", marginTop: "5%" }}
             >
-              <h1>Watchlist </h1>
+              <h1>Watchlist</h1>
             </div>
           </div>
 
@@ -98,78 +98,115 @@ const Watchlist = () => {
                   currentPage * itemsPerPage
                 )
                 .map((listing) => (
-                  <div className="row" key={listing._id}>
+                  <div
+                    className="row"
+                    key={listing._id}
+                    style={{
+                      border: "1px solid #ccc",
+                      padding: "1rem",
+                      borderRadius: "8px",
+                      marginBottom: "1rem",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => navigate(`/listing/${listing._id}`)}
+                  >
                     {listing.images && (
                       <div className="col-sm-auto">
                         <div className="img-div">
                           <img
                             src={listing.images[0]}
-                            onClick={() => {
-                              navigate("/listing/" + listing._id);
-                            }}
-                            style={{borderRadius:"18px"}}
-                          ></img>
+                            alt={listing.name}
+                            onClick={() => navigate(`/listing/${listing._id}`)}
+                            style={{ borderRadius: "18px" }}
+                          />
                         </div>
                       </div>
                     )}
 
                     <div className="col d-grid mt-2 gap-2">
                       <div className="row" style={{ width: "545px" }}>
-                        <h2 className="text-truncate"> {listing.name} </h2>
+                        <h2 className="text-truncate">{listing.name}</h2>
                       </div>
-                      <div className="row" style={{ width: "545px" }}>
-                        <h2 className="text-truncate">
-                          {" "}
-                          Address: {listing.address}{" "}
-                        </h2>
-                      </div>
-                      <div className="row" style={{ width: "545px" }}>
-                        <h2> ${listing.price} </h2>
-                      </div>
+                      {userType === "Investor" ? (
+                        <>
+                          <div className="row" style={{ width: "545px" }}>
+                            <h2 className="text-truncate">
+                              Town: {listing.town}
+                            </h2>
+                          </div>
+                          <div className="row" style={{ width: "545px" }}>
+                            <h2>
+                              Resale Price: ${listing.resale_price}
+                            </h2>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="row" style={{ width: "545px" }}>
+                            <h2 className="text-truncate">
+                              Address: {listing.address}
+                            </h2>
+                          </div>
+                          <div className="row" style={{ width: "545px" }}>
+                            <h2>${listing.price}</h2>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <div className="col d-grid align-self-end gap-2">
-                      <div className="row " style={{ marginTop: "-25%" }}>
-                      <button
-                        type="button"
-                        className="btn btn-secondary Listing"
+                      {/* For customer users, show both "Learn More" and "Delete" buttons.
+                          For investors, show only "Delete from Watchlist" */}
+                      {userType !== "Investor" && (
+                        <div className="row" style={{ marginTop: "-60%" }}>
+                          <button
+                            type="button"
+                            className="btn btn-secondary Listing"
+                            style={{
+                              color: "black",
+                              backgroundColor: "transparent",
+                              marginLeft: "40%",
+                              width: "60%",
+                              height: "2.8em",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "20px",
+                              marginBottom: "-3%",
+                            }}
+                            onClick={(e) => {
+                              navigate(`/listing/${listing._id}`);
+                            }}
+                          >
+                            Learn More
+                          </button>
+                        </div>
+                      )}
+                      <div
+                        className="row"
                         style={{
-                          color: "black",
-                          backgroundColor: "transparent",
-                          marginLeft:"40%",
-                          width: "60%",
-                          height: "2.3em",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "25px",
-                          marginBottom:"-3%",
+                          marginTop: userType === "Investor" ? "0" : "-12%",
                         }}
-                        onClick={(e)=>{navigate(`/listing/${listing._id}`)}}
                       >
-                        Learn More
-                      </button>
-                    </div>
-                    <div className="row " style={{ marginTop: "-12%" }}>
-                      <button
-                        type="button"
-                        className="btn btn-secondary Listing"
-                        style={{
-                          color: "black",
-                          width: "60%",
-                          backgroundColor:"transparent",
-                          marginLeft:"40%",
-                          height: "2.3em",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "25px",
-                        }}
-                        onClick={handleDeleteWatchList(listing._id)}
-                      >
-                         Delete from Watchlist
-                      </button>
-                    </div>
+                        <button
+                          type="button"
+                          className="btn btn-secondary Listing"
+                          style={{
+                            color: "black",
+                            width: "60%",
+                            backgroundColor: "transparent",
+                            marginLeft: "40%",
+                            height: "2.8em",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "20px",
+                          }}
+                          onClick={handleDeleteWatchList(listing._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -197,10 +234,10 @@ const Watchlist = () => {
           <p style={{ fontSize: "3em" }}>
             You don't have permission to access this page.
           </p>
-          
         </div>
       )}
     </>
   );
 };
+
 export default Watchlist;
