@@ -172,7 +172,7 @@ const InvestorSearchResults = () => {
               </div>
             ))
         ) : (
-          <p>No investor properties found for these filters.</p>
+          <p>Loading...</p>
         )}
       </div>
 

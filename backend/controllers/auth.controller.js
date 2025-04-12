@@ -17,6 +17,11 @@ function isPasswordStrong(password) {
 //Register Investor
 export const registerInvestor = async (req, res, next) => {
   const { username, email, password, phoneNo } = req.body;
+  if (!/^\d{8}$/.test(phoneNo)) {
+    return next(
+      errorHandler(401, { type: "phoneNo", content: "Phone number must contain exactly 8 digits." })
+    );
+  }
   const strongpass = isPasswordStrong(password);
   if (username.length < 6) {
     return next(errorHandler(401, { type: "username", content: "Username must consist of at least 6 characters." }));
@@ -30,6 +35,7 @@ export const registerInvestor = async (req, res, next) => {
       )
     );
   }
+  
   if (!strongpass) {
     return next(
       errorHandler(
@@ -83,6 +89,11 @@ export const registerInvestor = async (req, res, next) => {
 //Register customer
 export const registerCustomer = async (req, res, next) => {
   const { username, email, password, phoneNo } = req.body;
+  if (!/^\d{8}$/.test(phoneNo)) {
+    return next(
+      errorHandler(401, { type: "phoneNo", content: "Phone number must contain exactly 8 digits." })
+    );
+  }
   const strongpass = isPasswordStrong(password);
   if (username.length < 6)
   {
@@ -155,6 +166,11 @@ export const registerCustomer = async (req, res, next) => {
 //Register agent
 export const registerAgent = async (req, res, next) => {
   const { username, email, password, phoneNo,agentname, agentregnum } = req.body;
+  if (!/^\d{8}$/.test(phoneNo)) {
+    return next(
+      errorHandler(401, { type: "phoneNo", content: "Phone number must contain exactly 8 digits." })
+    );
+  }
   const strongpass = isPasswordStrong(password);
   if (password.length < 10)
   {
