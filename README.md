@@ -1,9 +1,9 @@
 # HomeQuest 
 
-Welcome to the official repository for NTU SC2006 Software Engineering group project HomeQuestHomeQuest.
+Welcome to the official repository for NTU SC2006 Software Engineering group project HomeQuest.
 
 <p align="center">
-  <img src="./frontend/src/assets/Login Choice Screenshot.png" alt="RentLah Login Choice Screenshot" width="800"/>
+  <img src="./frontend/src/assets/Login Choice Screenshot.png" alt="Login Choice Screenshot" width="800"/>
 </p>
 <p align="center">
   <img src="./frontend/src/assets/homepage.jpg" alt="Home Page Screenshot" width="800"/>
@@ -15,7 +15,7 @@ HomeQuest is a website designed to help users navigate the Singapore housing mar
 
 ## Website Purpose:
 
-Our group understands the difficulties that peoplep face in securing affordable housing in Singpapore. The Smart Nation Initiative aims to use technology to empower Singapore's citizens. Our website, HomeQuest, embodies this vision by leveraging technology to address the specific challenge citizens nowadays face. HomeQuest provides a user friendly platform that will streamline the rental process as well as give some investment insights for potential investors, making it easier for our users to find a perfect place they can call home and investment opportunities in Singapore.
+Our group understands the difficulties that people face in securing affordable housing in Singapore. The Smart Nation Initiative aims to use technology to empower Singapore's citizens. Our website, HomeQuest, embodies this vision by leveraging technology to address the specific challenge citizens nowadays face. HomeQuest provides a user-friendly platform that will streamline the rental process and give some investment insights for potential investors, making it easier for our users to find a perfect place they can call home and investment opportunities in Singapore.
 
 ## Tech Stack:
 <p align="center">
@@ -63,12 +63,12 @@ Now in the backend directory, create a file with the name **.env**
 
 Inside the **.env** file, key in the following:  
 
-**Note: Replace <...> with your own secret key, MongoDB uri, Supabase URL, and Supabase ANON Key**  
+**Note: Replace <...> with your own secret key, MongoDB URI, Supabase URL, and Supabase ANON Key**  
 
 
 ```
 JWT_SECRET=<Your secret key>
-MONGO=<Your MongoDB uri>
+MONGO=<Your MongoDB URI>
 VITE_SUPABASE_URL="<Your Supabase URL>"
 VITE_SUPABASE_ANON_KEY="<Your Supabase ANON Key>"
 PASSWORD="<Your generated app password from Google Account>"
