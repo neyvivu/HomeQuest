@@ -51,13 +51,6 @@ VITE_SUPABASE_ANON_KEY="<Your Supabase ANON Key>"
 
 ### Backend 
 
-Then in the backend directory, run the following: 
-
-```
-npm i
-npm run dev
-```
-
 Open a new terminal.  
 
 Then go back to the HomeQuest directory and  
