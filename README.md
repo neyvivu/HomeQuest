@@ -6,6 +6,9 @@ Welcome to the official repository for NTU SC2006 Software Engineering group pro
   <img src="./frontend/src/assets/Login Choice Screenshot.png" alt="Login Choice Screenshot" width="800"/>
 </p>
 <p align="center">
+  <img src="./frontend/src/assets/homepage2.png" alt="Investor's Home Page Screenshot" width="800"/>
+</p>
+<p align="center">
   <img src="./frontend/src/assets/homepage.jpg" alt="Home Page Screenshot" width="800"/>
 </p>
 
