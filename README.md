@@ -1,6 +1,6 @@
 # HomeQuest 
 
-Welcome to the official repository for NTU SC2006 Software Engineering group project HomeQuest.
+Welcome to the official repository for NTU SC2006 Software Engineering group project HomeQuest. 
 
 <p align="center">
   <img src="./frontend/src/assets/Login Choice Screenshot.png" alt="Login Choice Screenshot" width="800"/>
