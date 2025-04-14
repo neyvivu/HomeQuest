@@ -6,6 +6,9 @@ Welcome to the official repository for NTU SC2006 Software Engineering group pro
   <img src="./frontend/src/assets/Login Choice Screenshot.png" alt="Login Choice Screenshot" width="800"/>
 </p>
 <p align="center">
+  <img src="./frontend/src/assets/homepage2.png" alt="Investor's Home Page Screenshot" width="800"/>
+</p>
+<p align="center">
   <img src="./frontend/src/assets/homepage.jpg" alt="Home Page Screenshot" width="800"/>
 </p>
 
@@ -33,7 +36,7 @@ Our group understands the difficulties that people face in securing affordable h
 
 Firstly, clone this repo, then cd into your working directory:
 
-Then run the following code to launch the front end:  
+Then run the following code in the terminal to launch the front end:  
 
 ```
 cd HomeQuest/frontend
@@ -47,6 +50,13 @@ Inside the **.env** file, key in the following:
 ```
 VITE_SUPABASE_URL="<Your Supabase URL>"
 VITE_SUPABASE_ANON_KEY="<Your Supabase ANON Key>"
+```
+
+Then in the frontend directory, run the following in the terminal:  
+
+```
+npm i
+npm run dev
 ```
 
 ### Backend 
@@ -74,7 +84,7 @@ VITE_SUPABASE_ANON_KEY="<Your Supabase ANON Key>"
 PASSWORD="<Your generated app password from Google Account>"
 EMAIL="<Your email address>"
 ```
-Then in the backend directory, run the following:  
+Then in the backend directory, run the following in the terminal:  
 
 ```
 npm i
